@@ -12,11 +12,11 @@ class NoteWebClient {
 
     fun list(callbackResponse: CallbackResponse<List<Note>>){
         val call = RetrofitInitializer().noteService().list()
-        call.enqueue(object : Callback<List<Note>?> {
+        call.enqueue(object : Callback<List<Note>> {
             override fun onResponse(
-                call: Call<List<Note>?>?,
-                response: Response<List<Note>?>?
-            ){
+                call: Call<List<Note>>,
+                response: Response<List<Note>>){
+
                 response?.body()?.let{
                     val notes: List<Note> = it
                     callbackResponse.success(notes)
@@ -24,7 +24,7 @@ class NoteWebClient {
             }
 
             override fun onFailure(
-                call: Call<List<Note>?>?,
+                call: Call<List<Note>>,
                 t: Throwable?) {
                 Log.e("onFailure error", t?.message)
             }
@@ -34,12 +34,15 @@ class NoteWebClient {
     fun insert(note: Note, callbackResponse: CallbackResponse<Note>){
         val call = RetrofitInitializer().noteService().insert(note)
         call.enqueue(object: Callback<Note?> {
-            override fun onResponse(call: Call<Note?>, response: Response<Note?>) {
-                callbackResponse.success(note)
+            override fun onResponse(call: Call<Note?>?, response: Response<Note?>?) {
+                response?.body()?.let {
+                    val note: Note = it
+                    callbackResponse.success(note)
+                }
             }
 
-            override fun onFailure(call: Call<Note?>, t: Throwable) {
-
+            override fun onFailure(call: Call<Note?>?, t: Throwable?) {
+                Log.e("onFailure error", t?.message)
             }
         })
     }

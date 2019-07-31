@@ -33,7 +33,7 @@ class NoteListActivity : AppCompatActivity() {
 
 
 
-        fab_add_note.setOnClickListener(object: View.OnClickListener{
+        fab_add_note.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
 
                 val createdView = LayoutInflater.from(this@NoteListActivity)
