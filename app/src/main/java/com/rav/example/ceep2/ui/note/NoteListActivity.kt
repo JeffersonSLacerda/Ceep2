@@ -51,7 +51,7 @@ class NoteListActivity : AppCompatActivity() {
                             val note = Note(title, description)
                             NoteWebClient().insert(note, object: CallbackResponse<Note>{
                                 override fun success(response: Note) {
-                                    this@NoteListActivity.notes.add(note)
+                                    this@NoteListActivity.notes.add(response)
                                     configureList()
                                 }
                             })
@@ -63,10 +63,10 @@ class NoteListActivity : AppCompatActivity() {
         })
     }
 
-    private fun configureList(){
+    private fun configureList() {
 
         val recyclerView = note_list_recyclerview
-        recyclerView.adapter = NoteListAdapter(notes, this)
+        recyclerView.adapter = NoteListAdapter(notes, windowManager, this@NoteListActivity)
         val layouManager = StaggeredGridLayoutManager(
                 2, StaggeredGridLayoutManager.VERTICAL)
         recyclerView.layoutManager = layouManager
